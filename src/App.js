@@ -37,7 +37,7 @@ function App() {
             </button>
           </div>
         </nav>
-        <div className="m-5">
+        <div className="m-2 mt-5 mb-0">
           <PasswordManager dark={dark} />
         </div>
       </div>

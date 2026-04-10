@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { v4 as uuidv4 } from "uuid";
+import "./index.css";
+
 const PasswordManager = ({ dark }) => {
   const [passwordList, setPasswordList] = useState(() => {
     const storeData = localStorage.getItem("NewPassword");
@@ -11,7 +13,7 @@ const PasswordManager = ({ dark }) => {
   const [password, setPassword] = useState("");
   const [search, setSearch] = useState("");
   const [editId, setEditId] = useState(null);
-  const [showPass,setShowPass] = useState(false);
+  const [showPass, setShowPass] = useState(false);
   //Password Show
   const passwordShow = (id) => {
     const showSpecificPassword = passwordList.map((each) => {
@@ -50,11 +52,17 @@ const PasswordManager = ({ dark }) => {
   //Add Password
   const addPasswords = (e) => {
     e.preventDefault();
-    if (isDuplicate) {
+    if (webname === "" || username === "" || password === "") {
+      toast.error("Please Fill all Fields!", {
+        position: "top-right",
+        autoClose: 2000,
+        theme: dark ? "dark" : "colored",
+      });
+    } else if (isDuplicate) {
       toast.error("Password is Alrady Exist!", {
         position: "top-right",
         autoClose: 2000,
-        theme: "colored",
+        theme: dark ? "dark" : "colored",
       });
       setUsername("");
       setPassword("");
@@ -71,8 +79,11 @@ const PasswordManager = ({ dark }) => {
       toast.success("Password Updated Successfully.", {
         position: "top-right",
         autoClose: 2000,
-        theme: "colored",
+        theme: dark ? "dark" : "colored",
       });
+      setWebname("");
+      setUsername("");
+      setPassword("");
     } else {
       const newPassword = {
         id: uuidv4(),
@@ -85,7 +96,7 @@ const PasswordManager = ({ dark }) => {
       toast.success("Password Add Successfully.", {
         position: "top-right",
         autoClose: 2000,
-        theme: "colored",
+        theme: dark ? "dark" : "colored",
       });
       setPassword("");
       setUsername("");
@@ -100,16 +111,16 @@ const PasswordManager = ({ dark }) => {
     toast.error("Password Deleted Successfully.", {
       position: "top-right",
       autoClose: 2000,
-      theme: "colored",
+      theme: dark ? "dark" : "colored",
     });
   };
 
-  const handleShowPass = () =>{
-    setShowPass(prev =>!prev)
-  }
+  const handleShowPass = () => {
+    setShowPass((prev) => !prev);
+  };
   return (
     <div
-      className={dark ? "bg-dark text-light min-vh-100" : "bg-light min-vh-100"}
+      className={dark ? "bg-dark text-light min-vh-100" : "bg-light min-vh-100"}            
     >
       {/* Main Section */}
       <div className="container py-5">
@@ -168,7 +179,7 @@ const PasswordManager = ({ dark }) => {
                       <i className="bi bi-lock"></i>
                     </span>
                     <input
-                      type={showPass?"text":"password"}
+                      type={showPass ? "text" : "password"}
                       name="password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
@@ -178,7 +189,7 @@ const PasswordManager = ({ dark }) => {
                     <span
                       className={`input-group-text ${dark ? "bg-dark text-light border-light" : ""}`}
                       onClick={handleShowPass}
-                      style={{cursor:"pointer"}}
+                      style={{ cursor: "pointer" }}
                     >
                       {showPass ? (
                         <i className="bi bi-eye-slash-fill"></i>
@@ -190,7 +201,7 @@ const PasswordManager = ({ dark }) => {
                 </div>
 
                 <button
-                  className="btn w-100"
+                  className={`btn w-100 ${dark ? "bg-dark text-white" : ""}`}
                   style={{ backgroundColor: "#7a88c6", color: "#ffffff" }}
                 >
                   {editId ? "Update Password" : "Add Password"}
@@ -212,11 +223,20 @@ const PasswordManager = ({ dark }) => {
 
         {/* Password Cards */}
         <div className="mt-5">
-          <h4 className="fw-bold mb-4">Saved Passwords</h4>
+          <h4 className="fw-bold mb-4">
+            Saved Passwords{" "}
+            <span
+              className={
+                dark ? "password-length-dark" : "password-length-light"
+              }
+            >
+              {searchPassword.length}
+            </span>
+          </h4>
           <div className="mb-3">
             <div className="input-group">
               <span className="input-group-text">
-                <i class="bi bi-search"></i>
+                <i className="bi bi-search"></i>
               </span>
               <input
                 type="search"
@@ -247,9 +267,10 @@ const PasswordManager = ({ dark }) => {
               {/* Password Card */}
               <div className="row g-4">
                 {searchPassword.map((item) => (
-                  <div className="col-md-4" key={item}>
+                  <div className="col-md-4" key={item.id}>
                     <div
                       className={`card shadow border-0 ${dark ? "bg-secondary text-light" : ""}`}
+
                     >
                       <div className="card-body">
                         <h5 className="card-title">{item.webname}</h5>
@@ -274,13 +295,13 @@ const PasswordManager = ({ dark }) => {
                             )}
                           </button>
                           <button
-                            className={`btn btn-sm ${dark ? "btn-outline-light" : "btn-outline-primary"}`}
+                            className={`btn btn-sm ${dark ? "btn-outline-light" : "btn-outline-warning"}`}
                             onClick={() => handleEditPassword(item)}
                           >
                             <i className="bi bi-pencil-square"></i>
                           </button>
                           <button
-                            className={`btn btn-sm ${dark ? "btn-outline-light" : "btn-outline-primary"}`}
+                            className={`btn btn-sm ${dark ? "btn-outline-light" : "btn-outline-danger"}`}
                             onClick={() => handleDelete(item.id)}
                           >
                             <i className="bi bi-trash-fill"></i>
