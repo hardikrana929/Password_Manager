@@ -26,23 +26,33 @@ const Login = () => {
       });
       navigate("/signup", { replace: true });
       return;
-    }
-    const verifypass = await bcrypt.compare(pass, getUser.password);
-    if (getUser.username === username && verifypass) {
-      toast.success("Login Successfull", {
-        position: "top-right",
-        autoClose: 2000,
-        theme: "colored",
-      });
-      setUsername("");
-      setPass("");
-      navigate("/", { replace: true });
     } else {
-      toast.error("Invalid Username or Password", {
-        position: "top-right",
-        autoClose: 2000,
-        theme: "colored",
-      });
+      if (pass.length < 5) {
+        toast.error("Passwort is too short. Enter minimum 8 digit password.", {
+          position: "top-right",
+          autoClose: 2000,
+          theme: "colored",
+        });
+        return;
+      } else {
+        const verifypass = await bcrypt.compare(pass, getUser.password);
+        if (getUser.username === username && verifypass) {
+          toast.success("Login Successfull", {
+            position: "top-right",
+            autoClose: 2000,
+            theme: "colored",
+          });
+          setUsername("");
+          setPass("");
+          navigate("/", { replace: true });
+        } else {
+          toast.error("Invalid Username or Password", {
+            position: "top-right",
+            autoClose: 2000,
+            theme: "colored",
+          });
+        }
+      }
     }
   };
   return (

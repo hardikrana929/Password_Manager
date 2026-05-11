@@ -12,31 +12,41 @@ const Signup = () => {
 
   const creatUser = async (e) => {
     e.preventDefault();
-    if(!fname || !username || !pass){
-      toast.error("Please fill all the fields",{
-        position:'top-right',
-        autoClose:2000,
-        theme:'colored'
-      })
+    if (!fname || !username || !pass) {
+      toast.error("Please fill all the fields", {
+        position: "top-right",
+        autoClose: 2000,
+        theme: "colored",
+      });
       return;
+    } else {
+      if (pass.length < 8) {
+        toast.error("Passwort is too short. Enter minimum 8 digit password.", {
+          position: "top-right",
+          autoClose: 2000,
+          theme: "colored",
+        });
+        return;
+      } else {
+        const hashPass = await bcrypt.hash(pass, 5);
+        const newUser = {
+          id: uuidv4(),
+          fname: fname,
+          username: username,
+          password: hashPass,
+        };
+        localStorage.setItem("user", JSON.stringify(newUser));
+        toast.success("Account Created Successfully", {
+          position: "top-right",
+          autoClose: 2000,
+          theme: "colored",
+        });
+        navigate("/login", { replace: true });
+        setFname("");
+        setUsername("");
+        setPass("");
+      }
     }
-    const hashPass = await bcrypt.hash(pass,5);
-    const newUser = {
-      id: uuidv4(),
-      fname: fname,
-      username: username,
-      password:  hashPass,
-    };
-    localStorage.setItem('user',JSON.stringify(newUser));    
-    toast.success("Account Created Successfully", {
-      position: "top-right",
-      autoClose: 2000,
-      theme: "colored",
-    });
-    navigate("/login",{replace:true});
-    setFname('');
-    setUsername('');
-    setPass('');
   };
 
   return (

@@ -41,28 +41,37 @@ const ForgotPass = () => {
       });
       return;
     } else {
-      // Hash new password
-      const hashedPass = await bcrypt.hash(newPass, 5);
+      if (newPass.length < 5) {
+        toast.error("Passwort is too short. Enter minimum 8 digit password.", {
+          position: "top-right",
+          autoClose: 2000,
+          theme: "colored",
+        });
+        return;
+      } else {
+        // Hash new password
+        const hashedPass = await bcrypt.hash(newPass, 5);
 
-      // Update password
-      const updatedUser = {
-        ...getUser,
-        password: hashedPass,
-      };
+        // Update password
+        const updatedUser = {
+          ...getUser,
+          password: hashedPass,
+        };
 
-      localStorage.setItem("user", JSON.stringify(updatedUser));
+        localStorage.setItem("user", JSON.stringify(updatedUser));
 
-      toast.success("Password Updated Successfully", {
-        position: "top-right",
-        autoClose: 2000,
-        theme: "colored",
-      });
-      setUsername("");
-      setNewPass("");
+        toast.success("Password Updated Successfully", {
+          position: "top-right",
+          autoClose: 2000,
+          theme: "colored",
+        });
+        setUsername("");
+        setNewPass("");
 
-      setTimeout(() => {
-        navigate("/login");
-      }, 2000);
+        setTimeout(() => {
+          navigate("/login");
+        }, 2000);
+      }
     }
   };
 
