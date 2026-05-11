@@ -120,76 +120,104 @@ const PasswordManager = ({ dark }) => {
   };
   return (
     <div
-      className={dark ? "bg-dark text-light min-vh-100" : "bg-light min-vh-100"}            
+      className={`min-vh-100 py-4 ${dark ? "bg-dark text-light" : "bg-light"}`}
     >
-      {/* Main Section */}
-      <div className="container py-5">
-        <div className="row align-items-center">
-          {/* Left Form */}
-          <div className="col-md-6">
+      <div className="container">
+        {/* Top Section */}
+        <div className="row align-items-center justify-content-between g-4">
+          {/* Form Section */}
+          <div className="col-12 col-lg-6">
             <div
-              className={`card shadow-lg border-0 p-4 ${dark ? "bg-secondary text-light" : ""}`}
+              className={`card border-0 shadow-lg rounded-4 p-3 p-md-4 ${
+                dark ? "bg-secondary text-light" : ""
+              }`}
             >
-              <h4 className="mb-4 fw-bold">Add New Password</h4>
+              <h3 className="fw-bold mb-4 text-center text-md-start">
+                {editId ? "Update Password" : "Add New Password"}
+              </h3>
+
               <form onSubmit={addPasswords}>
+                {/* Website */}
                 <div className="mb-3">
-                  <label className="form-label">Website Name</label>
+                  <label className="form-label fw-semibold">Website Name</label>
+
                   <div className="input-group">
                     <span
-                      className={`input-group-text ${dark ? "bg-dark text-light border-light" : ""}`}
+                      className={`input-group-text ${
+                        dark ? "bg-dark text-light border-secondary" : ""
+                      }`}
                     >
                       <i className="bi bi-globe2"></i>
                     </span>
+
                     <input
                       type="text"
-                      name="webname"
                       value={webname}
                       onChange={(e) => setWebname(e.target.value)}
-                      className={`form-control ${dark ? "bg-dark text-light border-light" : ""}`}
-                      placeholder="Enter website"
+                      className={`form-control ${
+                        dark ? "bg-dark text-light border-secondary" : ""
+                      }`}
+                      placeholder="Enter Website"
                     />
                   </div>
                 </div>
 
+                {/* Username */}
                 <div className="mb-3">
-                  <label className="form-label">Username</label>
+                  <label className="form-label fw-semibold">
+                    Username / Email
+                  </label>
+
                   <div className="input-group">
                     <span
-                      className={`input-group-text ${dark ? "bg-dark text-light border-light" : ""}`}
+                      className={`input-group-text ${
+                        dark ? "bg-dark text-light border-secondary" : ""
+                      }`}
                     >
                       <i className="bi bi-person"></i>
                     </span>
+
                     <input
                       type="email"
-                      name="username"
                       value={username}
                       onChange={(e) => setUsername(e.target.value)}
-                      className={`form-control ${dark ? "bg-dark text-light border-light" : ""}`}
-                      placeholder="Enter username"
+                      className={`form-control ${
+                        dark ? "bg-dark text-light border-secondary" : ""
+                      }`}
+                      placeholder="Enter Username"
                     />
                   </div>
                 </div>
 
-                <div className="mb-3">
-                  <label className="form-label">Password</label>
+                {/* Password */}
+                <div className="mb-4">
+                  <label className="form-label fw-semibold">Password</label>
+
                   <div className="input-group">
                     <span
-                      className={`input-group-text ${dark ? "bg-dark text-light border-light" : ""}`}
+                      className={`input-group-text ${
+                        dark ? "bg-dark text-light border-secondary" : ""
+                      }`}
                     >
                       <i className="bi bi-lock"></i>
                     </span>
+
                     <input
                       type={showPass ? "text" : "password"}
-                      name="password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      className={`form-control ${dark ? "bg-dark text-light border-light" : ""}`}
-                      placeholder="Enter password"
+                      className={`form-control ${
+                        dark ? "bg-dark text-light border-secondary" : ""
+                      }`}
+                      placeholder="Enter Password"
                     />
+
                     <span
-                      className={`input-group-text ${dark ? "bg-dark text-light border-light" : ""}`}
-                      onClick={handleShowPass}
+                      className={`input-group-text ${
+                        dark ? "bg-dark text-light border-secondary" : ""
+                      }`}
                       style={{ cursor: "pointer" }}
+                      onClick={handleShowPass}
                     >
                       {showPass ? (
                         <i className="bi bi-eye-slash-fill"></i>
@@ -200,9 +228,13 @@ const PasswordManager = ({ dark }) => {
                   </div>
                 </div>
 
+                {/* Button */}
                 <button
-                  className={`btn w-100 ${dark ? "bg-dark text-white" : ""}`}
-                  style={{ backgroundColor: "#7a88c6", color: "#ffffff" }}
+                  className="btn w-100 py-2 fw-semibold rounded-3"
+                  style={{
+                    backgroundColor: "#7a88c6",
+                    color: "#fff",
+                  }}
                 >
                   {editId ? "Update Password" : "Add Password"}
                 </button>
@@ -210,34 +242,41 @@ const PasswordManager = ({ dark }) => {
             </div>
           </div>
 
-          {/* Right Image */}
-          <div className="d-none d-md-block col-md-6 text-center">
+          {/* Image Section */}
+          <div className="col-12 col-lg-6 text-center">
             <img
               src="https://assets.ccbp.in/frontend/react-js/password-manager-lg-img.png"
-              alt="password"
-              className="img-fluid"
-              style={{ maxHeight: "400px" }}
+              alt="password manager"
+              className="img-fluid d-none d-lg-block float-end"
+              style={{
+                maxWidth: "100%",
+                maxHeight: "450px",
+                objectFit: "contain",
+              }}
             />
           </div>
         </div>
 
-        {/* Password Cards */}
+        {/* Saved Passwords */}
         <div className="mt-5">
-          <h4 className="fw-bold mb-4">
-            Saved Passwords{" "}
-            <span
-              className={
-                dark ? "password-length-dark" : "password-length-light"
-              }
-            >
-              {searchPassword.length}
-            </span>
-          </h4>
-          <div className="mb-3">
-            <div className="input-group">
+          <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+            <h3 className="fw-bold m-0">
+              Saved Passwords
+              <span
+                className={`ms-2 badge rounded-pill ${
+                  dark ? "bg-light text-dark" : "bg-dark text-light"
+                }`}
+              >
+                {searchPassword.length}
+              </span>
+            </h3>
+
+            {/* Search */}
+            <div className="input-group" style={{ maxWidth: "350px" }}>
               <span className="input-group-text">
                 <i className="bi bi-search"></i>
               </span>
+
               <input
                 type="search"
                 value={search}
@@ -247,71 +286,85 @@ const PasswordManager = ({ dark }) => {
               />
             </div>
           </div>
+
+          {/* No Password */}
           {searchPassword.length === 0 ? (
-            <div className="vh-50 p-5">
+            <div className="text-center py-5">
               <img
                 src="https://assets.ccbp.in/frontend/react-js/no-passwords-img.png"
-                alt="No Password exist"
-                width="300px"
-                className="mx-auto d-block"
+                alt="No Password"
+                className="img-fluid mb-3"
+                style={{ maxWidth: "280px" }}
               />
-              <p
-                className="fw-bold fs-3 text-center"
-                style={{ color: "#002fff" }}
-              >
-                No Password Exist
-              </p>
+
+              <h4 className="fw-bold text-primary">No Passwords Found</h4>
             </div>
           ) : (
-            <div>
-              {/* Password Card */}
-              <div className="row g-4">
-                {searchPassword.map((item) => (
-                  <div className="col-md-4" key={item.id}>
-                    <div
-                      className={`card shadow border-0 ${dark ? "bg-secondary text-light" : ""}`}
+            <div className="row g-4">
+              {searchPassword.map((item) => (
+                <div className="col-12 col-sm-6 col-lg-4" key={item.id}>
+                  <div
+                    className={`card h-100 border-0 shadow rounded-4 ${
+                      dark ? "bg-secondary text-light" : ""
+                    }`}
+                  >
+                    <div className="card-body d-flex flex-column">
+                      {/* Website */}
+                      <h5 className="fw-bold mb-3 text-truncate">
+                        {item.webname}
+                      </h5>
 
-                    >
-                      <div className="card-body">
-                        <h5 className="card-title">{item.webname}</h5>
-                        <p className="mb-1">
-                          <strong>Username:</strong>
-                          {item.username}
-                        </p>
-                        <p className="mb-3">
-                          <strong>Password:</strong>
-                          {item.isShow ? item.password : "••••••••"}
-                        </p>
+                      {/* Username */}
+                      <p className="mb-2 text-break">
+                        <strong>Username:</strong> {item.username}
+                      </p>
 
-                        <div className="d-flex justify-content-end gap-2">
-                          <button
-                            className={`btn btn-sm ${dark ? "btn-outline-light" : "btn-outline-primary"}`}
-                            onClick={() => passwordShow(item.id)}
-                          >
-                            {item.isShow ? (
-                              <i className="bi bi-eye-slash-fill"></i>
-                            ) : (
-                              <i className="bi bi-eye-fill"></i>
-                            )}
-                          </button>
-                          <button
-                            className={`btn btn-sm ${dark ? "btn-outline-light" : "btn-outline-warning"}`}
-                            onClick={() => handleEditPassword(item)}
-                          >
-                            <i className="bi bi-pencil-square"></i>
-                          </button>
-                          <button
-                            className={`btn btn-sm ${dark ? "btn-outline-light" : "btn-outline-danger"}`}
-                            onClick={() => handleDelete(item.id)}
-                          >
-                            <i className="bi bi-trash-fill"></i>
-                          </button>
-                        </div>
+                      {/* Password */}
+                      <p className="mb-4">
+                        <strong>Password:</strong>{" "}
+                        {item.isShow ? item.password : "••••••••"}
+                      </p>
+
+                      {/* Buttons */}
+                      <div className="d-flex justify-content-end gap-2 mt-auto">
+                        {/* Show */}
+                        <button
+                          className={`btn btn-sm ${
+                            dark ? "btn-outline-light" : "btn-outline-primary"
+                          }`}
+                          onClick={() => passwordShow(item.id)}
+                        >
+                          {item.isShow ? (
+                            <i className="bi bi-eye-slash-fill"></i>
+                          ) : (
+                            <i className="bi bi-eye-fill"></i>
+                          )}
+                        </button>
+
+                        {/* Edit */}
+                        <button
+                          className={`btn btn-sm ${
+                            dark ? "btn-outline-warning" : "btn-outline-warning"
+                          }`}
+                          onClick={() => handleEditPassword(item)}
+                        >
+                          <i className="bi bi-pencil-square"></i>
+                        </button>
+
+                        {/* Delete */}
+                        <button
+                          className={`btn btn-sm ${
+                            dark ? "btn-outline-danger" : "btn-outline-danger"
+                          }`}
+                          onClick={() => handleDelete(item.id)}
+                        >
+                          <i className="bi bi-trash-fill"></i>
+                        </button>
                       </div>
                     </div>
                   </div>
-                ))}
-              </div>
+                </div>
+              ))}
             </div>
           )}
         </div>
