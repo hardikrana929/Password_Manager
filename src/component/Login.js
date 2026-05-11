@@ -2,7 +2,7 @@ import { FaUser, FaLock, FaShieldAlt } from "react-icons/fa";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import bcrypt from "bcryptjs";
-import { Link, replace, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -11,6 +11,12 @@ const Login = () => {
 
   const verifyUser = async (e) => {
     e.preventDefault();
+    if (!username || !pass) {
+      toast.error("Please fill all the fields", {
+        position: "top-right",
+      });
+      return;
+    }
     const getUser = JSON.parse(localStorage.getItem("user"));
     if (!getUser) {
       toast.error("User not Exist, Please Signup", {
@@ -105,7 +111,10 @@ const Login = () => {
 
                 {/* Forgot */}
                 <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
-                  <Link to="/forgot" className="text-decoration-none fw-semibold">
+                  <Link
+                    to="/forgot"
+                    className="text-decoration-none fw-semibold"
+                  >
                     Forgot Password?
                   </Link>
                 </div>

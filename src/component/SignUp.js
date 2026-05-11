@@ -12,6 +12,14 @@ const Signup = () => {
 
   const creatUser = async (e) => {
     e.preventDefault();
+    if(!fname || !username || !pass){
+      toast.error("Please fill all the fields",{
+        position:'top-right',
+        autoClose:2000,
+        theme:'colored'
+      })
+      return;
+    }
     const hashPass = await bcrypt.hash(pass,5);
     const newUser = {
       id: uuidv4(),

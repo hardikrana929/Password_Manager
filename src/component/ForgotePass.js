@@ -12,7 +12,14 @@ const ForgotPass = () => {
 
   const resetPassword = async (e) => {
     e.preventDefault();
-
+    if (!username || !newPass) {
+      toast.error("Please fill all the fields", {
+        position: "top-right",
+        autoClose: 2000,
+        theme: "colored",
+      });
+      return;
+    }
     const getUser = JSON.parse(localStorage.getItem("user"));
 
     // Check user exists
@@ -33,31 +40,30 @@ const ForgotPass = () => {
         theme: "colored",
       });
       return;
+    } else {
+      // Hash new password
+      const hashedPass = await bcrypt.hash(newPass, 5);
+
+      // Update password
+      const updatedUser = {
+        ...getUser,
+        password: hashedPass,
+      };
+
+      localStorage.setItem("user", JSON.stringify(updatedUser));
+
+      toast.success("Password Updated Successfully", {
+        position: "top-right",
+        autoClose: 2000,
+        theme: "colored",
+      });
+      setUsername("");
+      setNewPass("");
+
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000);
     }
-
-    // Hash new password
-    const hashedPass = await bcrypt.hash(newPass, 5);
-
-    // Update password
-    const updatedUser = {
-      ...getUser,
-      password: hashedPass,
-    };
-
-    localStorage.setItem("user", JSON.stringify(updatedUser));
-
-    toast.success("Password Updated Successfully", {
-      position: "top-right",
-      autoClose: 2000,
-      theme: "colored",
-    });
-
-    setUsername("");
-    setNewPass("");
-
-    setTimeout(() => {
-      navigate("/login");
-    }, 2000);
   };
 
   return (
@@ -65,7 +71,6 @@ const ForgotPass = () => {
       <div className="row w-100 justify-content-center">
         <div className="col-11 col-sm-10 col-md-8 col-lg-5 col-xl-4">
           <div className="card border-0 shadow-lg rounded-4 overflow-hidden">
-
             {/* Header */}
             <div className="bg-dark text-white text-center py-4">
               <div
@@ -77,20 +82,15 @@ const ForgotPass = () => {
 
               <h2 className="fw-bold mb-1">Reset Password</h2>
 
-              <p className="mb-0 text-light">
-                Create a new secure password
-              </p>
+              <p className="mb-0 text-light">Create a new secure password</p>
             </div>
 
             {/* Form */}
             <div className="card-body p-4 p-md-5">
               <form onSubmit={resetPassword}>
-
                 {/* Username */}
                 <div className="mb-4">
-                  <label className="form-label fw-semibold">
-                    Username
-                  </label>
+                  <label className="form-label fw-semibold">Username</label>
 
                   <div className="input-group">
                     <span className="input-group-text bg-white border-end-0">
@@ -110,9 +110,7 @@ const ForgotPass = () => {
 
                 {/* New Password */}
                 <div className="mb-4">
-                  <label className="form-label fw-semibold">
-                    New Password
-                  </label>
+                  <label className="form-label fw-semibold">New Password</label>
 
                   <div className="input-group">
                     <span className="input-group-text bg-white border-end-0">
@@ -141,17 +139,12 @@ const ForgotPass = () => {
                 {/* Back Login */}
                 <p className="text-center mt-4 mb-0 text-secondary">
                   Remember password?{" "}
-                  <a
-                    href="/login"
-                    className="text-decoration-none fw-bold"
-                  >
+                  <a href="/login" className="text-decoration-none fw-bold">
                     Back to Login
                   </a>
                 </p>
-
               </form>
             </div>
-
           </div>
         </div>
       </div>
